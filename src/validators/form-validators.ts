@@ -4,17 +4,16 @@ import { ID } from "@node-steam/id";
 
 extend("email", {
   ...email,
-  message: "{_field_} é requerido, seu viado!"
+  message: "{_field_} tem que ser válido. !"
 });
 
 extend("required", {
   ...required,
-  message: "{_field_} é requerido"
+  message: "{_field_} é obrigatório."
 });
 
 extend("minmax", {
   validate(value, { min, max }: any) {
-    console.log(value.length)
     return value.length >= min && value.length <= max;
   },
   params: ["min", "max"],
