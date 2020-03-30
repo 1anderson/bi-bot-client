@@ -7,8 +7,8 @@
     </head>
 
     <body class="back">
-      <ValidationObserver v-slot="{ handleSubmit }">
-        <form @submit.prevent="handleSubmit(onSubmit)" id="cadastro">
+      <ValidationObserver ref="observer">
+        <form id="cadastro" v-on:submit="onSubmit">
           <div
             class="container-cadastro column itens-vertical-center itens-space-between"
           >
@@ -20,7 +20,6 @@
                 <img src="../../assets/nome.png" class="icons" />
                 <ValidationProvider
                   rules="required|minmax:3,30"
-                  v-slot="{ errors }"
                 >
                   <input
                     type="text"
@@ -28,7 +27,6 @@
                     placeholder="usuário / min:5 max: 30"
                     v-model="userCadastro.login"
                   />
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
               </div>
             </div>
@@ -39,7 +37,6 @@
                 <img src="../../assets/senha.png" class="icons" />
                 <ValidationProvider
                   rules="required|minmax:3,30"
-                  v-slot="{ errors }"
                 >
                   <input
                     type="password"
@@ -49,7 +46,6 @@
                     maxlength="20"
                     v-model="userCadastro.password"
                   />
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
               </div>
             </div>
@@ -60,7 +56,6 @@
                 <img src="../../assets/senha.png" class="icons" />
                 <ValidationProvider
                   :rules="`required|confirm-password:${userCadastro.password}`"
-                  v-slot="{ errors }"
                 >
                   <input
                     type="password"
@@ -68,7 +63,6 @@
                     placeholder="confirme a senha"
                     v-model="passwordConfirm"
                   />
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
               </div>
             </div>
@@ -77,14 +71,13 @@
                 class="container-cadastro row itens-space-between itens-vertical-center"
               >
                 <img src="../../assets/email.png" class="icons" />
-                <ValidationProvider rules="required|email" v-slot="{ errors }">
+                <ValidationProvider rules="required|email">
                   <input
                     type="email"
                     name="email"
                     placeholder="endereço de email"
                     v-model="userCadastro.email"
                   />
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
               </div>
             </div>
@@ -95,7 +88,6 @@
                 <img src="../../assets/email.png" class="icons" />
                 <ValidationProvider
                   rules="required|steamID"
-                  v-slot="{ errors }"
                 >
                   <input
                     type="text"
@@ -103,7 +95,6 @@
                     placeholder="SteamID"
                     v-model="userCadastro.SteamID"
                   />
-                  <span>{{ errors[0] }}</span>
                 </ValidationProvider>
               </div>
             </div>
@@ -117,7 +108,7 @@
               <img src="../../assets/logo3.png" />
             </div>
           </div>
-        </form>
+      </form>
       </ValidationObserver>
     </body>
   </html>
@@ -128,6 +119,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 import { crudService } from "../../shared/services/crudService";
+import  ToastService  from "../../shared/services/toastService";
 import UserCadastroDTO from "./user-cadastro-dto";
 import "../../validators/form-validators";
 
@@ -138,8 +130,11 @@ export default class Cadastro extends Vue {
   userCadastro: UserCadastroDTO = new UserCadastroDTO("", "", "", "");
   passwordConfirm = "";
   async onSubmit() {
-    const response = await crudService.create("user", this.userCadastro);
-    console.log(response);
+    const toastService = new ToastService(this.$bvToast);
+    console.log(toastService.showError("teste"));
+    // this.$bvToast.toast();
+    // const response = await crudService.create("user", this.userCadastro);
+    console.log(this.$refs.observer);
   }
 }
 </script>
