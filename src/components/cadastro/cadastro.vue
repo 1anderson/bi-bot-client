@@ -7,103 +7,137 @@
     </head>
 
     <body class="back">
-      <div id="cadastro">
-        <div
-          class="container-cadastro column itens-vertical-center itens-space-between"
-        >
-          <img class="bibot-icon" src="../../assets/logo2.png" />
-          <div class="entradas container">
-            <div
-              class="container-cadastro row itens-space-between itens-vertical-center"
-            >
-              <img src="../../assets/nome.png" class="icons" />
-              <ValidationProvider rules="positive" v-slot="{ errors }">
-                <input
-                  type="text"
-                  name="nome"
-                  placeholder="usuário / min:5 max: 30"
-                  minlength="5"
-                  maxlength="30"
-                  v-model="userCadastro.login"
-                />
-                <span>{{ errors[0] }}</span>
-              </ValidationProvider>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(onSubmit)" id="cadastro">
+          <div
+            class="container-cadastro column itens-vertical-center itens-space-between"
+          >
+            <img class="bibot-icon" src="../../assets/logo2.png" />
+            <div class="entradas container">
+              <div
+                class="container-cadastro row itens-space-between itens-vertical-center"
+              >
+                <img src="../../assets/nome.png" class="icons" />
+                <ValidationProvider
+                  rules="required|minmax:3,30"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="text"
+                    name="nome"
+                    placeholder="usuário / min:5 max: 30"
+                    v-model="userCadastro.login"
+                  />
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+            <div class="entradas container">
+              <div
+                class="container-cadastro row itens-space-between itens-vertical-center"
+              >
+                <img src="../../assets/senha.png" class="icons" />
+                <ValidationProvider
+                  rules="required|minmax:3,30"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="password"
+                    name="senha"
+                    placeholder="senha / min: 5 max: 30"
+                    minlength="5"
+                    maxlength="20"
+                    v-model="userCadastro.password"
+                  />
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+            <div class="entradas container">
+              <div
+                class="container-cadastro row itens-space-between itens-vertical-center"
+              >
+                <img src="../../assets/senha.png" class="icons" />
+                <ValidationProvider
+                  :rules="`required|confirm-password:${userCadastro.password}`"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="password"
+                    name="confirmar-senha"
+                    placeholder="confirme a senha"
+                    v-model="passwordConfirm"
+                  />
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+            <div class="entradas container">
+              <div
+                class="container-cadastro row itens-space-between itens-vertical-center"
+              >
+                <img src="../../assets/email.png" class="icons" />
+                <ValidationProvider rules="required|email" v-slot="{ errors }">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="endereço de email"
+                    v-model="userCadastro.email"
+                  />
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+            <div class="entradas container">
+              <div
+                class="container-cadastro row itens-space-between itens-vertical-center"
+              >
+                <img src="../../assets/email.png" class="icons" />
+                <ValidationProvider
+                  rules="required|steamID"
+                  v-slot="{ errors }"
+                >
+                  <input
+                    type="text"
+                    name="SteamID"
+                    placeholder="SteamID"
+                    v-model="userCadastro.SteamID"
+                  />
+                  <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+              </div>
+            </div>
+            <div>
+              <img src="../../assets/fundo2.png" class="ak-img" />
+            </div>
+            <button type="submit" class="container row itens-justify-center">
+              <img src="../../assets/cadastrar.png" class="button-register" />
+            </button>
+            <div id="logo-bibot2">
+              <img src="../../assets/logo3.png" />
             </div>
           </div>
-          <div class="entradas container">
-            <div
-              class="container-cadastro row itens-space-between itens-vertical-center"
-            >
-              <img src="../../assets/senha.png" class="icons" />
-              <input
-                type="password"
-                name="senha"
-                placeholder="senha / min: 5 max: 20"
-                minlength="5"
-                maxlength="20"
-                v-model="userCadastro.password"
-              />
-            </div>
-          </div>
-          <div class="entradas container">
-            <div
-              class="container-cadastro row itens-space-between itens-vertical-center"
-            >
-              <img src="../../assets/senha.png" class="icons" />
-              <input
-                type="password"
-                name="confirmar-senha"
-                placeholder="confirme a senha"
-                minlength="5"
-                maxlength="10"
-                v-model="passwordConfirm"
-              />
-            </div>
-          </div>
-          <div class="entradas container">
-            <div
-              class="container-cadastro row itens-space-between itens-vertical-center"
-            >
-              <img src="../../assets/email.png" class="icons" />
-              <input
-                type="email"
-                name="email"
-                placeholder="endereço de email"
-                v-model="userCadastro.email"
-              />
-            </div>
-          </div>
-          <div>
-            <img src="../../assets/fundo2.png" class="ak-img" />
-          </div>
-          <div class="container row itens-justify-center" v-on:click="submit">
-            <img src="../../assets/cadastrar.png" class="button-register" />
-          </div>
-          <div id="logo-bibot2">
-            <img src="../../assets/logo3.png" />
-          </div>
-        </div>
-      </div>
+        </form>
+      </ValidationObserver>
     </body>
   </html>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { ValidationProvider } from "vee-validate";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 import { crudService } from "../../shared/services/crudService";
 import UserCadastroDTO from "./user-cadastro-dto";
 import "../../validators/form-validators";
 
 @Component({
-  components: { ValidationProvider }
+  components: { ValidationProvider, ValidationObserver }
 })
 export default class Cadastro extends Vue {
-  userCadastro: UserCadastroDTO = new UserCadastroDTO("", "", "");
+  userCadastro: UserCadastroDTO = new UserCadastroDTO("", "", "", "");
   passwordConfirm = "";
-  async submit() {
-    console.log(this.userCadastro);
+  async onSubmit() {
     const response = await crudService.create("user", this.userCadastro);
     console.log(response);
   }
