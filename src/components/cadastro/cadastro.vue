@@ -18,9 +18,7 @@
                 class="container-cadastro row itens-space-between itens-vertical-center"
               >
                 <img src="../../assets/nome.png" class="icons" />
-                <ValidationProvider
-                  rules="required|minmax:3,30"
-                >
+                <ValidationProvider rules="required|minmax:3,30">
                   <input
                     type="text"
                     name="nome"
@@ -35,9 +33,7 @@
                 class="container-cadastro row itens-space-between itens-vertical-center"
               >
                 <img src="../../assets/senha.png" class="icons" />
-                <ValidationProvider
-                  rules="required|minmax:3,30"
-                >
+                <ValidationProvider rules="required|minmax:3,30">
                   <input
                     type="password"
                     name="senha"
@@ -86,9 +82,7 @@
                 class="container-cadastro row itens-space-between itens-vertical-center"
               >
                 <img src="../../assets/email.png" class="icons" />
-                <ValidationProvider
-                  rules="required|steamID"
-                >
+                <ValidationProvider rules="required|steamID">
                   <input
                     type="text"
                     name="SteamID"
@@ -108,7 +102,7 @@
               <img src="../../assets/logo3.png" />
             </div>
           </div>
-      </form>
+        </form>
       </ValidationObserver>
     </body>
   </html>
@@ -119,7 +113,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 import { crudService } from "../../shared/services/crudService";
-import  ToastService  from "../../shared/services/toastService";
+import ToastService from "../../shared/services/toastService";
+import utilService from "../../shared/services/utilService";
 import UserCadastroDTO from "./user-cadastro-dto";
 import "../../validators/form-validators";
 
@@ -131,10 +126,13 @@ export default class Cadastro extends Vue {
   passwordConfirm = "";
   async onSubmit() {
     const toastService = new ToastService(this.$bvToast);
-    console.log(toastService.showError("teste"));
-    // this.$bvToast.toast();
-    // const response = await crudService.create("user", this.userCadastro);
-    console.log(this.$refs.observer);
+    //console.log(toastService.showError("Erros", "teste"));
+    //const response = await crudService.create("user", this.userCadastro);
+    // const { erros } = this.$refs.observer.errors;
+    const errors = utilService.concatErros(
+      (this.$refs.observer as Record<string, any>).errors
+    );
+    toastService.showError("Erros", errors, { "toast-class": ".toast" });
   }
 }
 </script>
@@ -149,7 +147,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.toast {
+  width: 100px;
+}
 .bibot-icon {
   width: 100%;
 }

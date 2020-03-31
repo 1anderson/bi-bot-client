@@ -5,7 +5,11 @@ export default class ToastService {
   constructor(toastInstance: BvToast) {
     this.toastInstance = toastInstance;
   }
-  showError = (message: string) => {
-    this.toastInstance.toast("error");
+  showError = (title: string, message: string, opts?: any) => {
+    this.toastInstance.toast(message, {
+      title: title,
+      variant: "danger",
+      ...opts
+    });
   };
 }
