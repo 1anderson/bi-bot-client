@@ -1,7 +1,10 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { ToastPlugin } from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import { BootstrapVue, ToastPlugin } from 'bootstrap-vue'
+Vue.use(BootstrapVue);
 Vue.use(ToastPlugin);
 Vue.config.productionTip = false;
 new Vue({

@@ -1,15 +1,17 @@
 import { BvToast } from "bootstrap-vue";
 
-export default class ToastService {
-  toastInstance: BvToast;
-  constructor(toastInstance: BvToast) {
-    this.toastInstance = toastInstance;
+const optsDefault = {
+  error: {
+    variant: "danger",
+    toaster: "b-toaster-top-right",
+    bodyClass: "d-flex flex-column"
   }
-  showError = (title: string, message: string, opts?: any) => {
-    this.toastInstance.toast(message, {
-      title: title,
-      variant: "danger",
-      ...opts
+};
+export default class ToastService {
+  showError = (message: any[] | string, toastInstance: BvToast, opts?: any) => {
+    const config = Object.assign({}, optsDefault.error, opts);
+    toastInstance.toast(message, {
+      ...config
     });
   };
 }

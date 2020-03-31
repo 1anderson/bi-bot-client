@@ -8,14 +8,14 @@
 
     <body class="back">
       <ValidationObserver ref="observer">
-        <form id="cadastro" v-on:submit="onSubmit">
+        <form id="cadastro">
           <div
             class="container-cadastro column itens-vertical-center itens-space-between"
           >
             <img class="bibot-icon" src="../../assets/logo2.png" />
             <div class="entradas container">
               <div
-                class="container-cadastro row itens-space-between itens-vertical-center"
+                class="flex-row justify-content-around"
               >
                 <img src="../../assets/nome.png" class="icons" />
                 <ValidationProvider rules="required|minmax:3,30">
@@ -95,9 +95,9 @@
             <div>
               <img src="../../assets/fundo2.png" class="ak-img" />
             </div>
-            <button type="submit" class="container row itens-justify-center">
+            <div class="container row itens-justify-center" v-on:click="submit">
               <img src="../../assets/cadastrar.png" class="button-register" />
-            </button>
+            </div>
             <div id="logo-bibot2">
               <img src="../../assets/logo3.png" />
             </div>
@@ -124,21 +124,23 @@ import "../../validators/form-validators";
 export default class Cadastro extends Vue {
   userCadastro: UserCadastroDTO = new UserCadastroDTO("", "", "", "");
   passwordConfirm = "";
-  async onSubmit() {
-    const toastService = new ToastService(this.$bvToast);
-    //console.log(toastService.showError("Erros", "teste"));
-    //const response = await crudService.create("user", this.userCadastro);
-    // const { erros } = this.$refs.observer.errors;
-    const errors = utilService.concatErros(
-      (this.$refs.observer as Record<string, any>).errors
-    );
-    toastService.showError("Erros", errors, { "toast-class": ".toast" });
+  toastService = new ToastService();
+
+  async submit() {
+    try {
+      await utilService.validateForm(this.$refs.observer, this.$createElement);
+      const response = await crudService.create("user", this.userCadastro);
+    } catch (error) {
+      this.toastService.showError(error, this.$bvToast, {
+        title: "Validação dos Campos"
+      });
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped lang="css">
 /* PAG: conteúdo */
 
 /* PAG: conteúdo */
@@ -147,9 +149,7 @@ body {
   margin: 0;
   padding: 0;
 }
-.toast {
-  width: 100px;
-}
+
 .bibot-icon {
   width: 100%;
 }
