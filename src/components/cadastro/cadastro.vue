@@ -13,11 +13,15 @@
             class="container-cadastro column itens-vertical-center itens-space-between"
           >
             <img class="bibot-icon" src="../../assets/logo2.png" />
-            <div class="entradas container">
-              <div
-                class="flex-row justify-content-around"
-              >
-                <img src="../../assets/nome.png" class="icons" />
+            <div
+              class="d-flex flex-row justify-content-around form-field-container"
+            >
+              <div class="d-flex flex-row justify-space-around entradas">
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center icons-container"
+                >
+                  <img src="../../assets/nome.png" class="icons" />
+                </div>
                 <ValidationProvider rules="required|minmax:3,30">
                   <input
                     type="text"
@@ -28,11 +32,15 @@
                 </ValidationProvider>
               </div>
             </div>
-            <div class="entradas container">
-              <div
-                class="container-cadastro row itens-space-between itens-vertical-center"
-              >
-                <img src="../../assets/senha.png" class="icons" />
+            <div
+              class="d-flex flex-row justify-content-around form-field-container"
+            >
+              <div class="d-flex flex-row justify-space-around entradas">
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center icons-container"
+                >
+                  <img src="../../assets/senha.png" class="icons" />
+                </div>
                 <ValidationProvider rules="required|minmax:3,30">
                   <input
                     type="password"
@@ -45,11 +53,15 @@
                 </ValidationProvider>
               </div>
             </div>
-            <div class="entradas container">
-              <div
-                class="container-cadastro row itens-space-between itens-vertical-center"
-              >
-                <img src="../../assets/senha.png" class="icons" />
+            <div
+              class="d-flex flex-row justify-content-around form-field-container"
+            >
+              <div class="d-flex flex-row justify-space-around entradas">
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center icons-container"
+                >
+                  <img src="../../assets/senha.png" class="icons" />
+                </div>
                 <ValidationProvider
                   :rules="`required|confirm-password:${userCadastro.password}`"
                 >
@@ -62,11 +74,15 @@
                 </ValidationProvider>
               </div>
             </div>
-            <div class="entradas container">
-              <div
-                class="container-cadastro row itens-space-between itens-vertical-center"
-              >
-                <img src="../../assets/email.png" class="icons" />
+            <div
+              class="d-flex flex-row justify-content-around form-field-container"
+            >
+              <div class="d-flex flex-row justify-space-around entradas">
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center icons-container"
+                >
+                  <img src="../../assets/email.png" class="icons" />
+                </div>
                 <ValidationProvider rules="required|email">
                   <input
                     type="email"
@@ -77,11 +93,15 @@
                 </ValidationProvider>
               </div>
             </div>
-            <div class="entradas container">
-              <div
-                class="container-cadastro row itens-space-between itens-vertical-center"
-              >
-                <img src="../../assets/email.png" class="icons" />
+            <div
+              class="d-flex flex-row justify-content-around form-field-container"
+            >
+              <div class="d-flex flex-row justify-space-around entradas">
+                <div
+                  class="d-flex flex-row align-items-center justify-content-center icons-container"
+                >
+                  <img src="../../assets/email.png" class="icons" />
+                </div>
                 <ValidationProvider rules="required|steamID">
                   <input
                     type="text"
@@ -129,7 +149,7 @@ export default class Cadastro extends Vue {
   async submit() {
     try {
       await utilService.validateForm(this.$refs.observer, this.$createElement);
-      const response = await crudService.create("user", this.userCadastro);
+      const response = await crudService.post("user", this.userCadastro);
     } catch (error) {
       this.toastService.showError(error, this.$bvToast, {
         title: "Validação dos Campos"
@@ -221,7 +241,6 @@ body {
 .icons {
   width: 15px;
   height: 15px;
-  margin-left: 10px;
 }
 
 .ak-img {
@@ -272,17 +291,18 @@ body {
   align-items: center;
 }
 
-.icons {
-  width: 15px;
-  height: 15px;
-  margin-left: 10px;
-}
-
 .ak-img {
   width: 200px;
 }
 
 .button-register {
   height: 30px;
+}
+
+.form-field-container {
+  width: 100%;
+}
+.icons-container {
+  width: 20%;
 }
 </style>
